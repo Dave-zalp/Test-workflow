@@ -1,30 +1,28 @@
-name : Test workflow   #name of the workflow
+name: Test workflow   #name of the workflow
 
-on : push   #the event that triggers the workflow
+on: push   #the event that triggers the workflow
 
 jobs:
   test:       #the name of the job, it can be any
     runs-on: ubuntu-latest    #the github server it works on
     steps:                     #then specify the steps
-       -name: Get the Code from the Repo     #the name of the step
-       uses: actions/checkout@v4  #this action downloads the code from the repo
-                 #the action you want to perform, which is gotten from the github action event
-      # with:
-      # #the "with" keyword is used to add configurations to actions that require configuration
-       -name: Setup PHP
-       uses: shivammathur/setup-php@v2
-      with:
+      - name: Get the Code from the Repo     #the name of the step
+        uses: actions/checkout@v4  #this action downloads the code from the repo
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
           php-version: '8.3'
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
           coverage: none
 
-      -name: Run composer install
-       run: composer install -n --prefer-dist
+      - name: Run composer install
+        run: composer install -n --prefer-dist
 
-      -name: Prepare Laravel Application
-      run: |
-        cp .env.example .env
-        php artisan key:generate
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
 
-      -name: Run Test here
-      run: php artisan test
+      - name: Run Test here
+        run: php artisan test
