@@ -1,6 +1,9 @@
 name: Test workflow   #name of the workflow
 
-on: push   #the event that triggers the workflow
+on:
+  push:   #the event that triggers the workflow
+      branches:
+        - 'main'
 
 jobs:
   test:       #the name of the job, it can be any
@@ -25,4 +28,4 @@ jobs:
           php artisan key:generate
 
       - name: Run Test here
-        run: php artisan test --testsuite=Unit 
+        run: php artisan test --testsuite=Unit
