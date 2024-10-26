@@ -1,9 +1,6 @@
 name: Deploy Project   #name of the workflow
 
-on:
-  push:   #the event that triggers the workflow
-      branches:
-        - 'main'
+on: [push, workflow_dispatch]   #the event that triggers the workflow
 
 jobs:
   test:       #the name of the job, it can be any
