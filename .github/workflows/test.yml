@@ -1,4 +1,4 @@
-name: Test workflow   #name of the workflow
+name: Deploy Project   #name of the workflow
 
 on:
   push:   #the event that triggers the workflow
@@ -29,3 +29,25 @@ jobs:
 
       - name: Run Test here
         run: php artisan test --testsuite=Unit
+  deploy:
+    runs-on: ubuntu-latest
+    steps:                     #then specify the steps
+      - name: Get the Code from the Repo     #the name of the step
+        uses: actions/checkout@v4  #this action downloads the code from the repo
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+      - name: Deploy
+        run: echo "Deploying....."
