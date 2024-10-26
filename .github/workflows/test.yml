@@ -30,6 +30,7 @@ jobs:
       - name: Run Test here
         run: php artisan test --testsuite=Unit
   deploy:
+    needs: [test]   #this is used to run jobs in sequential. The deploy job wont run untill the test job is run successful
     runs-on: ubuntu-latest
     steps:                     #then specify the steps
       - name: Get the Code from the Repo     #the name of the step
