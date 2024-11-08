@@ -1,0 +1,11 @@
+name: Test Workflow
+on:
+  pull_request:
+    types: [opened, edited]
+  workflow_dispatch:
+jobs:
+  var:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Command
+        run: echo "Hello, this was me"
