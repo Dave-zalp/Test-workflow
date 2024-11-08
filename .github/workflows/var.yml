@@ -1,0 +1,12 @@
+name: Test Workflow
+on:
+  issues:
+    types: [closed]
+  workflow_dispatch:
+jobs:
+  var:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Command
+        run: echo "Hello, this issue has been closed !"
+
