@@ -1,0 +1,51 @@
+name: Deploy Project   #name of the workflow
+
+on: [push, workflow_dispatch]   #the event that triggers the workflow
+
+jobs:
+  test:       #the name of the job, it can be any
+    runs-on: ubuntu-latest    #the github server it works on
+    steps:                     #then specify the steps
+      - name: Get the Code from the Repo     #the name of the step
+        uses: actions/checkout@v4  #this action downloads the code from the repo
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run Test here
+        run: php artisan test --testsuite=Unit
+  deploy:
+    needs: [test]   #this is used to run jobs in sequential. The deploy job wont run untill the test job is run successful
+    runs-on: ubuntu-latest
+    steps:                     #then specify the steps
+      - name: Get the Code from the Repo     #the name of the step
+        uses: actions/checkout@v4  #this action downloads the code from the repo
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv
+          coverage: none
+
+      - name: Run composer install
+        run: composer install -n --prefer-dist
+
+      - name: Prepare Laravel Application
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+      - name: Deploy
+        run: echo "Deploying....."
