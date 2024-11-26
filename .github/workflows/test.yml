@@ -30,6 +30,7 @@ jobs:
       - name: Run Test here
         run: php artisan test --testsuite=Unit
 
+        # Job Artifact
         # A job artifact in CI/CD is any file or set of files produced during a CI/CD pipeline execution that is saved and made available for later stages of the pipeline or for debugging purposes
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
