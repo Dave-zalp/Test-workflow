@@ -1,6 +1,9 @@
 name: Deploy Project   #name of the workflow
 
-on: [push, workflow_dispatch]   #the event that triggers the workflow
+on:
+  push:
+    branches:
+      -main
 
 jobs:
   test:       #the name of the job, it can be any
@@ -26,6 +29,13 @@ jobs:
 
       - name: Run Test here
         run: php artisan test --testsuite=Unit
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: package-json file
+          path: |
+              package.json
   deploy:
     needs: [test]   #this is used to run jobs in sequential. The deploy job wont run untill the test job is run successful
     runs-on: ubuntu-latest
@@ -49,3 +59,4 @@ jobs:
           php artisan key:generate
       - name: Deploy
         run: echo "Deploying....."
+
